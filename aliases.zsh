@@ -15,7 +15,6 @@ case "$-" in
 	alias casku='EMACS=/Applications/Emacs.app/Contents/MacOS/Emacs cask --path ~/.emacs.d/ update'
 	alias dlc=' history -d $((HISTCMD-1))'
 	alias dv='dirs -v'
-	alias dw='dirs -p | grep -v "^~$" >> ~/.bash_dirstack_history; sort -u -o ~/.bash_dirstack_history ~/.bash_dirstack_history'
 	alias gnu_cask='EMACS=/usr/local/bin/emacs cask --path ~/.emacs.d/'
 	alias h='builtin history'
 	alias hts="builtin history -fD"
@@ -32,7 +31,6 @@ case "$-" in
 	alias op="${HOMEBREW_BIN}/op"
 	alias po='popd'
 	alias pu='pushd'
-	alias sbrc="source ~/.bashrc"
 	alias skc="source ~/.keychain/$(hostname)-sh"
 	alias sl="ssh-add -l"
 	alias sop="source ~/.op/env"
