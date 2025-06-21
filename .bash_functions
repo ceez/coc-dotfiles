@@ -59,7 +59,6 @@ dl() {
 }
 
 dw() {
-    dirs -p | grep -v "^~$" >> ~/.bash_dirstack_history
-    sort -u -o ~/.bash_dirstack_history
+    dirs -p | grep -v "^~$" | sort -u -o ~/.bash_dirstack_history
 }
 
