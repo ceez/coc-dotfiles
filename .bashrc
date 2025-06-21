@@ -3,8 +3,9 @@
 # User specific aliases and functions
 
 # Source global definitions
-if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
+if [ -f /etc/bashrc ]
+then
+    source /etc/bashrc
 fi
 
 # Aliases
@@ -32,6 +33,21 @@ then
 fi
 
 shopt -s cdspell extglob
+# Always append, never overwrite
+shopt -s histappend
+
+# Immediately append new commands to the history file
+PROMPT_COMMAND='history -a; history -n;'
+
+# Optional: increase history size
+HISTSIZE=100000
+HISTFILESIZE=100000
+
+# Include timestamps
+HISTTIMEFORMAT="%F %T "
+
+# Optional: ignore trivial commands
+HISTIGNORE="ls:bg:fg:history:pwd"
 
 # User specific variables, aliases and functions
 CDPATH=.:..:../..:~:~/News/Pan:/usr/local:/usr:/var:/tmp 
@@ -40,20 +56,21 @@ ENSCRIPT="-G"
 ENV=${HOME}/.bashrc
 LESS="-MMRFSX"
 LS_OPTIONS='--show-control-chars --color=auto'
-NNTPSERVER=news2.realtime.net 
-RI="--format ansi --width 70"
+NRI="--format ansi --width 70"
 RSYNC_RSH=ssh
 USERNAME=${USERNAME:-${USER}}
 
 export \
-    CDPATH CVS_RSH ENSCRIPT ENV LESS LS_OPTIONS NNTPSERVER RI RSYNC_RSH USERNAME
+    CDPATH CVS_RSH ENSCRIPT ENV HISTSIZE HISTFILESIZE \
+    HISTTIMEFORMAT HISTIGNORE LESS LS_OPTIONS NNTPSERVER \
+    PROMPT_COMMAND NRI RSYNC_RSH USERNAME
 
 case $TERM in
 xterm* | dtterm | cygwin | linux | rxvt*)
     PS1="\[$bold\]"'[RC=$? HIST=\! CMD=\# JOBS=\j PID=$$ UMASK=$(umask)]'" \[$reset\]\n"'\d \t ${TERM} on $(/usr/bin/tty)\n\u'"\[$bold\]"'@'"\[$reset\]"'\h:\w\n'"\[$bold\]"'\$ '"\[$reset\]"
     PS2="\[$bold\]"'> '"\[$reset\]"
     PS4="\[$bold\]"'+ '"\[$reset\]"
-    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD} on $(/usr/bin/tty)\007"'
+    PROMPT_COMMAND=${PROMPT_COMMND}'echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD} on $(/usr/bin/tty)\007"'
     ;;
 *)
     PS1='[RC=$? HIST=\! CMD=\# JOBS=\j PID=$$ UMASK=$(umask)]\n\d \t ${TERM} on $(/usr/bin/tty)\n\u@\h:\w\n\$ ' 
@@ -68,7 +85,6 @@ export PS1 PS2 PS4 PROMPT_COMMAND
 
 # added by Anaconda3 4.0.0 installer
 #export PATH="/home/ccowan/anaconda3/bin:/home/ccowan/.cask/bin:$PATH"
-
 
 # PATH="/home/ccowan/perl5/bin${PATH:+:${PATH}}"; export PATH;
 # PERL5LIB="/home/ccowan/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
