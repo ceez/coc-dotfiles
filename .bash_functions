@@ -48,17 +48,41 @@ wrapcmd() {
   fi
 }
 
-dl() {
-    if [[ -f ~/.bash_dirstack_history ]]
+dhl() {
+    # Load directory stack from file
+    BDH=${BASH_DIRSTACK_HISTORY:-~/.bash_dirstack_history}
+    if [[ -f "${BDH}" ]]
     then
         while read -r dir
         do
-            pushd "$dir" > /dev/null
-        done < ~/.bash_dirstack_history
+	    # eval required for ~ expansion
+            eval pushd -n "$dir" > /dev/null
+        done < "${BDH}"
+    else
+	printf "Dirstack history file ${BDH} not found"
     fi
 }
 
-dw() {
-    dirs -p | grep -v "^~$" | sort -u -o ~/.bash_dirstack_history
+dhw() {
+    # Write directory stack
+    BDH=${BASH_DIRSTACK_HISTORY:-~/.bash_dirstack_history}
+    cat "${BDH}" <(dirs -p) |
+	grep -v -e "^~$" -e"${HOME}$" |
+	sort -u -o "${BDH}"
 }
 
+dhr() {
+    # Clean dirstack and reload from history file
+    dirs -c
+    dhl
+}
+
+dhc() {
+    # Clear the dirstack history file
+    cat /dev/null > "${BASH_DIRSTACK_HISTORY:-~/.bash_dirstack_history}"
+}
+
+clean_phone_pb() {
+    # Clean phone number in pastebin of non-essential chars
+    pbpaste | sed -E 's/[^+0-9]//g' | pbcopy
+}

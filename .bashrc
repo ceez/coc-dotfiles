@@ -47,17 +47,17 @@ HISTFILESIZE=100000
 HISTTIMEFORMAT="%F %T "
 
 # Optional: ignore trivial commands
-HISTIGNORE="ls:bg:fg:history:pwd"
+HISTIGNORE="bg:fg:history:pwd"
 
 # User specific variables, aliases and functions
-CDPATH=.:..:../..:~:~/News/Pan:/usr/local:/usr:/var:/tmp 
 CVS_RSH=ssh
 ENSCRIPT="-G"
-ENV=${HOME}/.bashrc
-LESS="-MMRFSX"
+LESS="-MRFSX"
 LS_OPTIONS='--show-control-chars --color=auto'
 NRI="--format ansi --width 70"
 RSYNC_RSH=ssh
+FQTTY=$(tty)
+TTY=${FQTTY#/dev/}
 USERNAME=${USERNAME:-${USER}}
 
 export \
@@ -67,13 +67,14 @@ export \
 
 case $TERM in
 xterm* | dtterm | cygwin | linux | rxvt*)
-    PS1="\[$bold\]"'[RC=$? HIST=\! CMD=\# JOBS=\j PID=$$ UMASK=$(umask)]'" \[$reset\]\n"'\d \t ${TERM} on $(/usr/bin/tty)\n\u'"\[$bold\]"'@'"\[$reset\]"'\h:\w\n'"\[$bold\]"'\$ '"\[$reset\]"
-    PS2="\[$bold\]"'> '"\[$reset\]"
-    PS4="\[$bold\]"'+ '"\[$reset\]"
-    PROMPT_COMMAND=${PROMPT_COMMND}'echo -ne "\033]0;${USER}@${HOSTNAME}:${PWD} on $(/usr/bin/tty)\007"'
+    PS1="\[$bold\]"'[RC=$? HIST=\! CMD=\# JOBS=\j PID=$$ UMASK=$(umask)]'" \[$reset\]\n"'\d \t ${TERM} on ${TTY}\n\u'"\[$bold\]"'@'"\[$reset\]"'\h:\w\n'"\[$bold\]"'\$ '"\[$reset\]"
+    PS2="${bold}> ${reset}"
+    PS3="${bold}#? ${reset}"
+    PS4="${bold}+ ${reset}"
+    PROMPT_COMMAND=${PROMPT_COMMND}'echo -ne "\033]0;${HOSTNAME} on ${TTY}\007"'
     ;;
 *)
-    PS1='[RC=$? HIST=\! CMD=\# JOBS=\j PID=$$ UMASK=$(umask)]\n\d \t ${TERM} on $(/usr/bin/tty)\n\u@\h:\w\n\$ ' 
+    PS1='[RC=$? HIST=\! CMD=\# JOBS=\j PID=$$ UMASK=$(umask)]\n\d \t ${TERM} on ${TTY}\n\u@\h:\w\n\$ ' 
     PS2='> '
     unset PROMPT_COMMAND
     ;;
@@ -91,3 +92,5 @@ export PS1 PS2 PS4 PROMPT_COMMAND
 # PERL_LOCAL_LIB_ROOT="/home/ccowan/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 # PERL_MB_OPT="--install_base \"/home/ccowan/perl5\""; export PERL_MB_OPT;
 # PERL_MM_OPT="INSTALL_BASE=/home/ccowan/perl5"; export PERL_MM_OPT;
+
+source /Users/ccowan/.config/broot/launcher/bash/br

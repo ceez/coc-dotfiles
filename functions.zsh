@@ -77,3 +77,8 @@ dw() {
     dirs -p | grep -v "^~$" >> ~/.zsh_dirstack_history
     sort -u -o ~/.zsh_dirstack_history
 }
+
+clean_phone_pb() {
+    # Clean phone number in pastebin of non-essential chars
+    pbpaste | sed -E 's/[^+0-9]//g' | pbcopy
+}
